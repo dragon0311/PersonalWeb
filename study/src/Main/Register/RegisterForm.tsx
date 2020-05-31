@@ -158,9 +158,8 @@ export default class RegisterForm extends React.Component<IProps, IState> {
   } 
 
   private onSubmit = () => {
-    fetch('http://127.0.0.1:8199/user/sign-up', {
+    fetch('/user/sign-up', {
       method:'POST',
-      mode:'cors',
       headers:{
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         // "Accept": "application/json,text/plain,*/*"
