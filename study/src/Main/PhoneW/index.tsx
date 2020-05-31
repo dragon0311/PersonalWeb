@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
 
-const Homework = (props : any) => {
+const PhoneW = (props : any) => {
   console.log(props);
   const params = new URLSearchParams(props.location.search); 
   console.log(params.get("name"));
@@ -28,4 +28,4 @@ const Homework = (props : any) => {
 //   }
 // }
 
-export default Homework;
+export default PhoneW;

@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { Form, Input, Button } from 'antd'
+import React, { Component } from 'react';
+import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
-import qs from 'querystring'
+import qs from 'querystring';
 
 const C = styled.div`
   position: absolute;
@@ -158,21 +158,24 @@ export default class RegisterForm extends React.Component<IProps, IState> {
   } 
 
   private onSubmit = () => {
-    fetch("http://127.0.0.1:8199/user/signup",{
-      method:"POST",
+    fetch('http://127.0.0.1:8199/user/sign-up', {
+      method:'POST',
+      mode:'cors',
       headers:{
-        'Content-Type': 'application/x-www-form-urlencoded',
-        "Accept": "application/json,text/plain,*/*"
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        // "Accept": "application/json,text/plain,*/*"
       },
       body:qs.stringify({
-        nickname: this.state.username,
-        passport: this.state.email,
-        password: this.state.password,
-        password2: this.state.psdconfirm,
+        Username: this.state.username,
+        Email: this.state.email,
+        Password: this.state.password,
+        Password2: this.state.psdconfirm,
       })
-    }).then(res => res.json())
+    }).then(res => {
+      console.log('res.json', res.json());
+    })
     .then(data => {
-      console.log(data);
+        console.log(data);
     })
   }
 }
