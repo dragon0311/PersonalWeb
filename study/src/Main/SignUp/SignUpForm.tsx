@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import React from 'react';
+import { Form, Input, Button, message } from 'antd';
 import styled from 'styled-components';
 import qs from 'querystring';
 
@@ -13,6 +13,7 @@ const C = styled.div`
 
 const XInput = styled(Input)`
   width: 200px;
+  margin-left: 14px;
 `;
 
 // const layout = {
@@ -31,7 +32,7 @@ interface IState {
   psdconfirm: string;
 }
 
-export default class RegisterForm extends React.Component<IProps, IState> {
+export default class SignUpForm extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
@@ -41,17 +42,18 @@ export default class RegisterForm extends React.Component<IProps, IState> {
       psdconfirm: '',
     }
   }
+  
   render() {
     return (
       <C>
-        <Form 
+        <Form
           // {...layout}
-          style={{width: '300px'}}
-          name="RegisterForm"
+          style={{ width: '300px' }}
+          name="SignUpForm"
           onFinish={this.onFinish}
           scrollToFirstError
         >
-            <Form.Item
+          <Form.Item
             name="username"
             label="用户名"
             rules={[
@@ -63,12 +65,12 @@ export default class RegisterForm extends React.Component<IProps, IState> {
             ]}
           >
             <XInput
-              value={this.state.username} 
-              onChange={(e: any)=>{
+              value={this.state.username}
+              onChange={(e: any) => {
                 this.setState({
                   username: e.target.value,
                 });
-              }}/>
+              }} />
           </Form.Item>
           <Form.Item
             name="email"
@@ -84,13 +86,13 @@ export default class RegisterForm extends React.Component<IProps, IState> {
               }
             ]}
           >
-            <XInput 
+            <XInput
               value={this.state.email}
-              onChange={(e: any)=>{
+              onChange={(e: any) => {
                 this.setState({
                   email: e.target.value,
                 });
-              }}/>
+              }} />
           </Form.Item>
           <Form.Item
             name="password"
@@ -103,13 +105,14 @@ export default class RegisterForm extends React.Component<IProps, IState> {
             ]}
             hasFeedback
           >
-            <XInput.Password 
-              value={this.state.password} 
-              onChange={(e: any)=>{
+            <XInput.Password
+              value={this.state.password}
+              onChange={(e: any) => {
                 this.setState({
                   password: e.target.value,
                 });
-              }}/>
+              }}
+              style={{ width: '200px', marginLeft: '24px'}} />
           </Form.Item>
           <Form.Item
             name="psdConfirm"
@@ -120,9 +123,9 @@ export default class RegisterForm extends React.Component<IProps, IState> {
                 required: true,
                 message: '请再次输入密码！',
               },
-              ({getFieldValue}) => ({
+              ({ getFieldValue }) => ({
                 validator(rule, value) {
-                  if(!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue('password') === value) {
                     console.log(Promise.resolve());
                     return Promise.resolve();
                   }
@@ -131,21 +134,21 @@ export default class RegisterForm extends React.Component<IProps, IState> {
                 }
               })
             ]}
-            
             hasFeedback
           >
-            <XInput.Password 
-              value={this.state.psdconfirm} 
-              onChange={(e: any)=>{
+            <XInput.Password
+              value={this.state.psdconfirm}
+              onChange={(e: any) => {
                 this.setState({
                   psdconfirm: e.target.value,
                 });
-              
-              }}/>
+              }}
+              style={{ width: '200px' }}
+            />
           </Form.Item>
           <Form.Item>
-            <Button 
-              type="primary" 
+            <Button
+              type="primary"
               onClick={this.onSubmit}>提交</Button>
           </Form.Item>
         </Form>
@@ -155,26 +158,30 @@ export default class RegisterForm extends React.Component<IProps, IState> {
 
   private onFinish = (values: any) => {
     console.log('Received values of form:', values);
-  } 
+  }
 
   private onSubmit = () => {
     fetch('/user/sign-up', {
-      method:'POST',
-      headers:{
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         // "Accept": "application/json,text/plain,*/*"
       },
-      body:qs.stringify({
+      body: qs.stringify({
         Username: this.state.username,
         Email: this.state.email,
         Password: this.state.password,
         Password2: this.state.psdconfirm,
       })
     }).then(res => {
-      console.log('res.json', res.json());
+      return res.json()
     })
-    .then(data => {
-        console.log(data);
-    })
+      .then(data => {
+        if (data.code) {
+          message.error(data.message)
+        } else {
+          message.error('注册成功！')
+        }
+      })
   }
 }
