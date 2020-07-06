@@ -114,6 +114,7 @@ export default class SignIn extends React.Component<IProps, IState> {
     }).then(res => {
       return res.json()
     }).then(data => {
+      console.log(data);
       if(data.code) {
         message.error(data.message);
       } else {
@@ -134,8 +135,9 @@ export default class SignIn extends React.Component<IProps, IState> {
         Password: this.state.password,
       })
     }).then(res => {
-      return res.json()
+      return res.json();
     }).then(data => {
+      console.log(data);
       if(data.code) {
         message.error(data.message);
       } else {

@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
+import styled from 'styled-components';
+
+const C = styled.div`
+  background-color: #D1D1D1;
+`
 
 const PhoneW = (props : any) => {
   console.log(props);
@@ -7,14 +12,14 @@ const PhoneW = (props : any) => {
   console.log(params.get("name"));
   console.log(params.get("age"));
   return(
-    <div>
+    <C>
       Homework
       <Button type='primary' onClick={() => {
         props.history.replace('/video');
       }}>
         返回视频
       </Button>
-    </div>
+    </C>
   )
 }
 

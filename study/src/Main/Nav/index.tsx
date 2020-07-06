@@ -22,13 +22,20 @@ const Title = styled.div`
   display: inline-block;
 `
 
-const XTabs = styled(Tabs)`
+const XTabsDiv = styled.div`
   float: left;
+  margin-left: 24px;
   display: 'inline-block';
-  .ant-tabs{
-    color: #212121;
+  font-family: "Microsoft YaHei";
+  font-size: 20px;
+  font-weight: 700;
+  &&.ant-tabs{
     height: 48px;
   }
+  .ant-tabs-nav .ant-tabs-tab{
+    font-weight: 700;
+  }
+  
 `
 
 class Nav extends Component {
@@ -36,14 +43,15 @@ class Nav extends Component {
     return (
       <TopBar>
         <Title>WallHome</Title>
-        <div>
-          <XTabs defaultActiveKey="1">
-            <TabPane tab={<Link to="/computerW">电脑壁纸</Link>} key="1"/>
-            <TabPane tab={<Link to="/phoneW">手机壁纸</Link>} key="2"/>
-            <TabPane tab={<Link to="/signin">登录</Link>} key="3"/>
-            <TabPane tab={<Link to="/signup">注册</Link>} key="4"/>
-          </XTabs>
-        </div>
+        <XTabsDiv>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab={<Link to="/home">主页</Link>} key="1"/>
+            <TabPane tab={<Link to="/computerW">桌面壁纸</Link>} key="2"/>
+            <TabPane tab={<Link to="/phoneW">手机壁纸</Link>} key="3"/>
+            <TabPane tab={<Link to="/signin">登录</Link>} key="4"/>
+            <TabPane tab={<Link to="/signup">注册</Link>} key="5"/>
+          </Tabs>
+        </XTabsDiv>
       </TopBar>
     );
   }

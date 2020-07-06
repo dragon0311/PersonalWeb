@@ -2,12 +2,19 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 import qs from 'querystring';
 import {v1} from 'uuid'
+import styled from 'styled-components';
+
+const C = styled.div`
+  background-color: #D1D1D1;
+`
+
+
 class ComputerW extends Component {
   render() {
     return (
-      <div>
+      <C>
         <Button onClick={this.uploadWallPaper}>上传壁纸</Button>
-      </div>
+      </C>
     );
   }
 
