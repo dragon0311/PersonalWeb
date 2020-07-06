@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'antd';
 import './App.css';
-import Main from './Main/Main';
+import Main from './Page/Main';
 
 
 function App() {

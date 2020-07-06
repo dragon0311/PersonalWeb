@@ -1,7 +1,10 @@
 import React from 'react';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message, Modal } from 'antd';
 import styled from 'styled-components';
 import qs from 'querystring';
+import * as switchVisibleActions from '../../Actions/switchVisible';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 const C = styled.div`
   position: absolute;
@@ -22,7 +25,8 @@ const XInput = styled(Input)`
 // }
 
 interface IProps {
-
+  signUpVisible: boolean;
+  switchVisibleActions: any;
 }
 
 interface IState {
@@ -32,7 +36,7 @@ interface IState {
   psdconfirm: string;
 }
 
-export default class SignUpForm extends React.Component<IProps, IState> {
+class SignUp extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
@@ -44,8 +48,12 @@ export default class SignUpForm extends React.Component<IProps, IState> {
   }
   
   render() {
+    console.log('this.props.signUpVisible', this.props.signUpVisible);
     return (
-      <C>
+      <Modal
+        visible={this.props.signUpVisible}
+      >
+        <h1>欢迎加入我们！</h1>
         <Form
           // {...layout}
           style={{ width: '300px' }}
@@ -152,7 +160,7 @@ export default class SignUpForm extends React.Component<IProps, IState> {
               onClick={this.onSubmit}>提交</Button>
           </Form.Item>
         </Form>
-      </C>
+      </Modal>
     )
   }
 
@@ -185,3 +193,17 @@ export default class SignUpForm extends React.Component<IProps, IState> {
       })
   }
 }
+
+const mapStateToProps = (state: any) => {
+  return {
+    signUpVisible: state.switchVisible.signUp
+  };
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    switchVisibleActions: bindActionCreators(switchVisibleActions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

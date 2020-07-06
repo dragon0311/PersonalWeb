@@ -13,7 +13,6 @@ export const MainRoute = () => {
       <Route exact path="/computerW" component={ComputerW}></Route>
       <Route exact path="/phoneW" component={PhoneW}></Route>
       <Route exact path="/signin" component={SignIn}/>
-      <Route exact path="/signup" component={SignUp}/>
     </Switch>
   )
 }
