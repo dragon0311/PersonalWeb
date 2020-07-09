@@ -1,7 +1,11 @@
 import React from 'react'
-import {Form, Input, Button, Checkbox, message} from 'antd'
+import {Form, Input, Button, Checkbox, message, Modal} from 'antd'
 import styled from 'styled-components';
 import qs from 'querystring';
+import * as actions from '../../Actions';
+import { GlobalStateProps } from '../../Reducers';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 const C = styled.div`
   position: absolute;
@@ -17,7 +21,8 @@ const XInput = styled(Input)`
 `;
 
 interface IProps {
-
+  signInVisible: boolean;
+  switchVisibleActions: any;
 }
 
 interface IState {
@@ -25,7 +30,7 @@ interface IState {
   password: string;
 }
 
-export default class SignIn extends React.Component<IProps, IState> {
+class SignIn extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
@@ -35,64 +40,72 @@ export default class SignIn extends React.Component<IProps, IState> {
   }
 
   render() {
+    console.log('this.props.signInVisible', this.props.signInVisible);
     return (
-      <div>
-        <h1>登录</h1>
+      <Modal
+        visible={this.props.signInVisible}
+        onCancel={() => {this.props.switchVisibleActions.signIp(false)}}
+        footer={null}
+      >
         <C>
-          <Form
-            // {...layout}
-            style={{ width: '300px' }}
-            name="SignUpForm"
-            onFinish={this.onFinish}
-            scrollToFirstError
-          >
-            <Form.Item
-              name="username"
-              label="用户名"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名！',
-                  whitespace: true,
-                }
-              ]}
+          <div>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+              <h1>登录</h1>
+            </div>
+            <Form
+              // {...layout}
+              style={{ width: '300px' }}
+              name="SignUpForm"
+              onFinish={this.onFinish}
+              scrollToFirstError
             >
-              <XInput
-                value={this.state.username}
-                onChange={(e: any) => {
-                  this.setState({
-                    username: e.target.value,
-                  });
-                }} />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              label="密码"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入密码！',
-                }
-              ]}
-            >
-              <XInput.Password
-                value={this.state.password}
-                onChange={(e: any) => {
-                  this.setState({
-                    password: e.target.value,
-                  });
-                }}
-                style={{ width: '200px', marginLeft: '28px'}} />
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                onClick={this.isSignedIn}>登录</Button>
-            </Form.Item>
-          </Form>
+              <Form.Item
+                name="username"
+                label="用户名"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户名！',
+                    whitespace: true,
+                  }
+                ]}
+              >
+                <XInput
+                  value={this.state.username}
+                  onChange={(e: any) => {
+                    this.setState({
+                      username: e.target.value,
+                    });
+                  }} />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                label="密码"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入密码！',
+                  }
+                ]}
+              >
+                <XInput.Password
+                  value={this.state.password}
+                  onChange={(e: any) => {
+                    this.setState({
+                      password: e.target.value,
+                    });
+                  }}
+                  style={{ width: '200px', marginLeft: '28px'}} />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  onClick={this.isSignedIn}>登录</Button>
+              </Form.Item>
+            </Form>
+          </div>
         </C>
-
-      </div>
+      </Modal>
     )
   }
 
@@ -146,3 +159,18 @@ export default class SignIn extends React.Component<IProps, IState> {
     })
   }
 }
+
+const mapStateToProps = (state: GlobalStateProps) => {
+  console.log('222222', state, state.modalVisible);
+  return {
+    signInVisible: state.modalVisible.signIn
+  };
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    switchVisibleActions: bindActionCreators(actions, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn)

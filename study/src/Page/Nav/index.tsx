@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {Tabs, Button} from 'antd';
 import {Link} from 'react-router-dom'
 import styled from 'styled-components';
-import * as switchVisibleActions from '../../Actions/switchVisible'
+import * as actions from '../../Actions'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { GlobalStateProps } from '../../Reducers';
 import SignUp from '../SignUp';
+import SignIn from '../SignIn';
 const {TabPane} = Tabs;
 
 const TopBar = styled.div`
@@ -43,8 +45,8 @@ const XTabsDiv = styled.div`
 `
 
 interface IProps {
-  switchVisible: boolean;
-  switchVisibleActions: any;
+  switchVisible?: boolean;
+  switchVisibleActions?: any;
 }
 
 class Nav extends React.Component<IProps> {
@@ -57,25 +59,26 @@ class Nav extends React.Component<IProps> {
             <TabPane tab={<Link to="/home">主页</Link>} key="1"/>
             <TabPane tab={<Link to="/computerW">桌面壁纸</Link>} key="2"/>
             <TabPane tab={<Link to="/phoneW">手机壁纸</Link>} key="3"/>
-            <TabPane tab={<Link to="/signin">登录</Link>} key="4"/>
           </Tabs>
         </XTabsDiv>
         <Button onClick={() => {this.props.switchVisibleActions.signUp(true)}}>注册</Button>
+        <Button onClick={() => {this.props.switchVisibleActions.signIn(true)}}>登录</Button>
         <SignUp/>
+        <SignIn/>
       </TopBar>
     );
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: GlobalStateProps) => {
   return {
-    switchVisible: state.switchVisible
+    modalVisible: state.modalVisible
   };
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    switchVisibleActions: bindActionCreators(switchVisibleActions, dispatch)
+    switchVisibleActions: bindActionCreators(actions, dispatch)
   };
 }
 

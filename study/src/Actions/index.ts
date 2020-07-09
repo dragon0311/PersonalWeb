@@ -1,15 +1,15 @@
-import { SIGNUP, SIGNIN } from "../Constants";
+import { actionTypes } from "./actionTypes";
 
 export const signUp = (visible: boolean) => {
   return {
-    type: SIGNUP,
+    type: actionTypes.SIGNUP,
     visible,
   };
 };
 
 export const signIn = (visible: boolean) => {
   return {
-    type: SIGNIN,
+    type: actionTypes.SIGNIN,
     visible,
   };
 };
